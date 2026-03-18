@@ -20,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -75,7 +40,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1d4f84655f446305ac42a8f1abcf7405.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -110,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -150,7 +115,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#carga-de-librerias" id="toc-carga-de-librerias" class="nav-link active" data-scroll-target="#carga-de-librerias">Carga de Librerias</a></li>
+  <li><a href="#cargar-de-dataset" id="toc-cargar-de-dataset" class="nav-link" data-scroll-target="#cargar-de-dataset">Cargar de Dataset</a></li>
+  <li><a href="#exploracion-inicial" id="toc-exploracion-inicial" class="nav-link" data-scroll-target="#exploracion-inicial">Exploracion inicial</a>
+  <ul class="collapse">
+  <li><a href="#informacion-general-del-dataset" id="toc-informacion-general-del-dataset" class="nav-link" data-scroll-target="#informacion-general-del-dataset">Informacion general del dataset</a></li>
+  <li><a href="#informacion-estadistica-del-dataset" id="toc-informacion-estadistica-del-dataset" class="nav-link" data-scroll-target="#informacion-estadistica-del-dataset">Informacion estadistica del dataset</a></li>
+  <li><a href="#columnas-con-valores-negativos" id="toc-columnas-con-valores-negativos" class="nav-link" data-scroll-target="#columnas-con-valores-negativos">Columnas con valores negativos</a></li>
+  <li><a href="#columnas-con-valores-faltantes" id="toc-columnas-con-valores-faltantes" class="nav-link" data-scroll-target="#columnas-con-valores-faltantes">Columnas con valores faltantes</a></li>
+  <li><a href="#columnas-con-valores-duplicados" id="toc-columnas-con-valores-duplicados" class="nav-link" data-scroll-target="#columnas-con-valores-duplicados">Columnas con valores duplicados</a></li>
+  </ul></li>
+  <li><a href="#manejo-de-valores---consistencia" id="toc-manejo-de-valores---consistencia" class="nav-link" data-scroll-target="#manejo-de-valores---consistencia">Manejo de Valores - Consistencia</a>
+  <ul class="collapse">
+  <li><a href="#tratamientovalores-negativos" id="toc-tratamientovalores-negativos" class="nav-link" data-scroll-target="#tratamientovalores-negativos">Tratamientovalores negativos</a></li>
+  </ul></li>
+  <li><a href="#transformacioncreacion-de-variables" id="toc-transformacioncreacion-de-variables" class="nav-link" data-scroll-target="#transformacioncreacion-de-variables">Transformacion/Creacion de Variables</a></li>
+  <li><a href="#seleccion-de-caracteristicas" id="toc-seleccion-de-caracteristicas" class="nav-link" data-scroll-target="#seleccion-de-caracteristicas">Seleccion de Caracteristicas</a>
+  <ul class="collapse">
+  <li><a href="#carateristicas-significativas" id="toc-carateristicas-significativas" class="nav-link" data-scroll-target="#carateristicas-significativas">Carateristicas significativas</a></li>
+  <li><a href="#eliminacion-de-caracteristicas-redundantes" id="toc-eliminacion-de-caracteristicas-redundantes" class="nav-link" data-scroll-target="#eliminacion-de-caracteristicas-redundantes">Eliminacion de caracteristicas redundantes</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -175,17 +167,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="carga-de-librerias" class="level1">
 <h1>Carga de Librerias</h1>
-<div id="ead56dbe" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="im">as</span> plt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 </section>
 <section id="cargar-de-dataset" class="level1">
 <h1>Cargar de Dataset</h1>
-<div id="bf555ce4" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'train.csv'</span>, index_col<span class="op">=</span><span class="st">'time'</span>, parse_dates<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div id="c7cce5ff" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="14">
 <div>
 
 
@@ -373,8 +359,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Exploracion inicial</h1>
 <section id="informacion-general-del-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="informacion-general-del-dataset">Informacion general del dataset</h2>
-<div id="cc42ed59" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="1e19cc03" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 DatetimeIndex: 9515 entries, 2020-01-01 13:00:00 to 2021-01-31 23:00:00
@@ -432,9 +417,8 @@ memory usage: 3.2 MB</code></pre>
 </section>
 <section id="informacion-estadistica-del-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="informacion-estadistica-del-dataset">Informacion estadistica del dataset</h2>
-<div id="ebb7a43c" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df.describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div id="6f33cbe9" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 
 
@@ -668,11 +652,7 @@ memory usage: 3.2 MB</code></pre>
 </section>
 <section id="columnas-con-valores-negativos" class="level2">
 <h2 class="anchored" data-anchor-id="columnas-con-valores-negativos">Columnas con valores negativos</h2>
-<div id="cd27541e" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>columnas_negativas <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> df.select_dtypes(include<span class="op">=</span><span class="st">'number'</span>).columns </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                      <span class="cf">if</span> (df[col] <span class="op">&lt;</span> <span class="dv">0</span>).<span class="bu">any</span>()]</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Columnas con valores negativos: </span><span class="sc">{</span>columnas_negativas<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="12ba9f8e" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
 <pre><code>Columnas con valores negativos: ['wind_production', 'sun_elevation:d', 'temp', 'dew_point_2m:C', 't_10m:C', 'dew_point_10m:C', 't_50m:C', 'dew_point_50m:C', 't_100m:C', 'dew_point_100m:C']</code></pre>
 </div>
@@ -681,9 +661,7 @@ memory usage: 3.2 MB</code></pre>
 </section>
 <section id="columnas-con-valores-faltantes" class="level2">
 <h2 class="anchored" data-anchor-id="columnas-con-valores-faltantes">Columnas con valores faltantes</h2>
-<div id="1ec08d57" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cols_faltantes <span class="op">=</span> df.columns[df.isnull().<span class="bu">any</span>()].tolist()</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Columnas con faltantes: </span><span class="sc">{</span>cols_faltantes<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="c605edd1" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>Columnas con faltantes: []</code></pre>
 </div>
@@ -691,9 +669,7 @@ memory usage: 3.2 MB</code></pre>
 </section>
 <section id="columnas-con-valores-duplicados" class="level2">
 <h2 class="anchored" data-anchor-id="columnas-con-valores-duplicados">Columnas con valores duplicados</h2>
-<div id="cd1eea47" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>num_duplicados <span class="op">=</span> df.duplicated().<span class="bu">sum</span>()</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Filas duplicadas: </span><span class="sc">{</span>num_duplicados<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="38ef5f01" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>Filas duplicadas: 0</code></pre>
 </div>
@@ -704,16 +680,11 @@ memory usage: 3.2 MB</code></pre>
 <h1>Manejo de Valores - Consistencia</h1>
 <section id="tratamientovalores-negativos" class="level2">
 <h2 class="anchored" data-anchor-id="tratamientovalores-negativos">Tratamientovalores negativos</h2>
-<div id="e6fa8235" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'wind_production'</span>] <span class="op">=</span> df[<span class="st">'wind_production'</span>].clip(lower<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 </section>
 </section>
 <section id="transformacioncreacion-de-variables" class="level1">
 <h1>Transformacion/Creacion de Variables</h1>
-<div id="ad51f89a" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'total_production'</span>] <span class="op">=</span> df[<span class="st">'wind_production'</span>] <span class="op">+</span> df[<span class="st">'pv_production'</span>]</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[[<span class="st">'pv_production'</span>, <span class="st">'wind_production'</span>, <span class="st">'total_production'</span>]].head())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="b8f29f50" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-stdout">
 <pre><code>                     pv_production  wind_production  total_production
 time                                                                 
@@ -729,10 +700,8 @@ time
 <h1>Seleccion de Caracteristicas</h1>
 <section id="carateristicas-significativas" class="level2">
 <h2 class="anchored" data-anchor-id="carateristicas-significativas">Carateristicas significativas</h2>
-<div id="af7190f2" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>correlacion <span class="op">=</span> df.corr(numeric_only<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>correlacion[<span class="st">'total_production'</span>].sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div id="432ce429" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="22">
 <pre><code>total_production            1.000000
 wind_production             0.919906
 wind_speed_10m:ms           0.504129
@@ -783,12 +752,7 @@ Name: total_production, dtype: float64</code></pre>
 </section>
 <section id="eliminacion-de-caracteristicas-redundantes" class="level2">
 <h2 class="anchored" data-anchor-id="eliminacion-de-caracteristicas-redundantes">Eliminacion de caracteristicas redundantes</h2>
-<div id="249a974b" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cols_eliminar <span class="op">=</span> [<span class="st">'consumption'</span>, <span class="st">'spot_market_price'</span>, <span class="st">'precip_1h:mm'</span>, <span class="st">'precip_type:idx'</span>, </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                 <span class="st">'clear_sky_energy_1h:J'</span>, <span class="st">'diffuse_rad_1h:Wh'</span>, <span class="st">'direct_rad_1h:Wh'</span>, <span class="st">'total_cloud_cover:p'</span>]</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df.drop(columns<span class="op">=</span>cols_eliminar)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>df_clean.info()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="a874b3c9" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 DatetimeIndex: 9515 entries, 2020-01-01 13:00:00 to 2021-01-31 23:00:00
@@ -835,11 +799,7 @@ dtypes: float64(36)
 memory usage: 2.7 MB</code></pre>
 </div>
 </div>
-<div id="1f6117eb" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Guardar dataset limpio</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df_clean.to_csv(<span class="st">"df_clean.csv"</span>, index<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Archivo df_clean.csv guardado correctamente"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="1ac2b694" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-stdout">
 <pre><code>Archivo df_clean.csv guardado correctamente</code></pre>
 </div>
