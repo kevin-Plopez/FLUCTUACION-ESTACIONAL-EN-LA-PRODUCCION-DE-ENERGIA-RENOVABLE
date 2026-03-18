@@ -169,9 +169,11 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="enlace-seccion-limpieza-de-datos" class="level1">
 <h1>Enlace Seccion Limpieza de Datos</h1>
+<p><a href="data_cleaning.html">Ir a la sección de limpieza de datos</a></p>
 </section>
 <section id="enlace-seccion-visualizaciones" class="level1">
 <h1>Enlace Seccion Visualizaciones</h1>
+<p><a href="data_view.html">Ir a la sección de visualizaciones</a></p>
 
 
 </section>
@@ -250,7 +252,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/kevin-Plopez\.github\.io\/FLUCTUACION-ESTACIONAL-EN-LA-PRODUCCION-DE-ENERGIA-RENOVABLE\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
