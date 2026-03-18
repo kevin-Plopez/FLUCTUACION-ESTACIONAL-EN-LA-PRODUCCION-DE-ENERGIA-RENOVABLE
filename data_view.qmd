@@ -1,0 +1,241 @@
+---
+title: "Fluctuación Estacional de Producción Renovable"
+author: "Kevin López, Edwin Acosta"
+format: html
+jupyter: python3
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{python}
+import pandas as pd
+import altair as alt
+alt.data_transformers.disable_max_rows()
+alt.data_transformers.enable("json")
+```
+
+```{python}
+# Cargar dataset limpio
+df = pd.read_csv("df_clean.csv", parse_dates=['time'])
+df.columns = df.columns.str.replace(':', '_').str.replace('.', '_')
+```
+
+```{python}
+# Crear total si no está
+if 'total_production' not in df.columns:
+    df['total_production'] = df['pv_production'] + df['wind_production']
+
+df['time'] = pd.to_datetime(df['time'])
+df['month'] = df['time'].dt.to_period('M').dt.to_timestamp()
+
+df_month = df.groupby('month')[['pv_production', 'wind_production']].mean().reset_index()
+
+df_long = df_month.melt(
+    id_vars='month',
+    value_vars=['pv_production', 'wind_production'],
+    var_name='source',
+    value_name='production'
+)
+```
+
+## Contribución relativa PV vs Wind (Estacional)
+
+```{python}
+# =========================
+# COLORES 
+# =========================
+color_scale = alt.Scale(
+    domain=['pv_production', 'wind_production'],
+    range=['#FFB703', '#1B5E20']
+)
+
+# =========================
+# LÍNEAS DE ESTACIONES
+# =========================
+season_dates = pd.DataFrame({
+    'date': pd.to_datetime([
+        '2020-03-01',
+        '2020-06-01',
+        '2020-09-01',
+        '2020-12-01'
+    ])
+})
+
+season_lines = alt.Chart(season_dates).mark_rule(
+    color='white',
+    strokeDash=[6,6],
+    strokeWidth=1.5,
+    opacity=0.6
+).encode(
+    x='date:T'
+)
+
+# =========================
+# LABELS 
+# =========================
+season_labels = pd.DataFrame({
+    'date': pd.to_datetime([
+        '2020-02-01',
+        '2020-04-15',
+        '2020-07-15',
+        '2020-10-15'
+    ]),
+    'season': ['Invierno', 'Primavera', 'Verano', 'Otoño']
+})
+
+season_text = alt.Chart(season_labels).mark_text(
+    fontSize=12,
+    fontWeight='bold',
+    color='white',
+    opacity=0.9
+).encode(
+    x='date:T',
+    y=alt.value(380), 
+    text='season:N'
+)
+
+# =========================
+# ÁREA APILADA
+# =========================
+area_chart = alt.Chart(df_long).mark_area(
+    interpolate='monotone',
+    opacity=0.95
+).encode(
+    x=alt.X(
+        'month:T',
+        title='Tiempo',
+        axis=alt.Axis(format='%b', labelAngle=0, grid=False)
+    ),
+    y=alt.Y(
+        'production:Q',
+        stack='normalize',
+        title='Proporción (%)',
+        axis=alt.Axis(format='%')
+    ),
+    color=alt.Color(
+        'source:N',
+        scale=color_scale,
+        title='Fuente',
+        legend=alt.Legend(orient='right')  
+    ),
+    tooltip=[
+        alt.Tooltip('month:T', title='Mes'),
+        alt.Tooltip('source:N', title='Fuente'),
+        alt.Tooltip('production:Q', format='.2f')
+    ]
+).properties(
+    title='🌞 vs 🌿 Contribución relativa PV vs Wind (Estacional)',
+    width=750,
+    height=400
+)
+
+# =========================
+# COMBINACIÓN FINAL
+# =========================
+final_chart = area_chart + season_lines + season_text
+
+final_chart.configure_view(
+    stroke=None
+).configure_title(
+    fontSize=16,
+    anchor='middle'
+).configure_axis(
+    labelFontSize=11,
+    titleFontSize=13
+)
+```
+
+### Análisis:
+
+El gráfico evidencia un comportamiento estacional claro entre la producción fotovoltaica (pv_production) y eólica (wind_production). A inicios y finales del año, la energía eólica domina la generación total, mientras que a mitad de año la producción solar incrementa significativamente, llegando a ser la principal fuente.
+
+Este patrón refleja una complementariedad entre ambas fuentes, donde la energía solar predomina en periodos de mayor radiación, y la eólica compensa en los meses con menor producción solar. En conjunto, esto contribuye a una generación más estable y balanceada a lo largo del tiempo.
+
+## Relación producción vs variables meteorológicas
+
+```{python}
+chart_pv = alt.Chart(df).mark_circle(
+    size=60,
+    opacity=0.5
+).encode(
+    x=alt.X(
+        'global_rad_1h_Wh:Q',
+        title='Radiación Solar'
+    ),
+    y=alt.Y(
+        'pv_production:Q',
+        title='Producción PV'
+    ),
+    color=alt.Color(
+        'temp:Q',
+        scale=alt.Scale(scheme='inferno'),
+        title='Temperatura'
+    ),
+    tooltip=[
+        alt.Tooltip('global_rad_1h_Wh', title='Radiación'),
+        alt.Tooltip('pv_production', title='PV'),
+        alt.Tooltip('temp', title='Temp')
+    ]
+).properties(
+    title='🌞 Producción PV vs Radiación Solar',
+    width=350,
+    height=350
+)
+
+# Línea de tendencia
+trend_pv = chart_pv.transform_regression(
+    'global_rad_1h_Wh', 'pv_production'
+).mark_line(color='white', size=2)
+
+pv_final = chart_pv + trend_pv
+```
+
+```{python}
+chart_wind = alt.Chart(df).mark_circle(
+    size=60,
+    opacity=0.5
+).encode(
+    x=alt.X(
+        'wind_speed_10m_ms:Q',
+        title='Velocidad del viento'
+    ),
+    y=alt.Y(
+        'wind_production:Q',
+        title='Producción Wind'
+    ),
+    color=alt.Color(
+        'temp:Q',
+        scale=alt.Scale(scheme='viridis'),
+        title='Temperatura'
+    ),
+    tooltip=[
+        alt.Tooltip('wind_speed_10m_ms', title='Viento'),
+        alt.Tooltip('wind_production', title='Wind'),
+        alt.Tooltip('temp', title='Temp')
+    ]
+).properties(
+    title='🌿 Producción Wind vs Velocidad del viento',
+    width=350,
+    height=350
+)
+
+# Línea de tendencia
+trend_wind = chart_wind.transform_regression(
+    'wind_speed_10m_ms', 'wind_production'
+).mark_line(color='white', size=2)
+
+wind_final = chart_wind + trend_wind
+```
+```{python}
+pv_final | wind_final
+```
+
+### Analisis:
+
+La producción fotovoltaica muestra una relación positiva clara con la radiación solar, evidenciando una dependencia directa y predecible. A mayor radiación, mayor generación de energía PV.
+
+En contraste, la producción eólica también presenta una relación positiva con la velocidad del viento, pero con mayor dispersión, lo que indica un comportamiento más variable y dependiente de otros factores. Además, se observa que a bajas velocidades la producción es cercana a cero.
+
+En conjunto, estos resultados evidencian que la energía solar es más predecible, mientras que la eólica es más variable, reforzando su complementariedad en la generación energética.

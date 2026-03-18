@@ -1,0 +1,48 @@
+---
+title: "FLUCTUACION ESTACIONAL EN LA PRODUCCION DE ENERGIA RENOVABLE"
+author: "Kevin López, Edwin Acosta"
+format: html
+jupyter: python3
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+# Contexto del Proyecto
+La generacion de energia renovable proveniente del viento y sol tienen como caracteristica intrinsica la fluctuacion de su intensidad pudiendo llegar incluso a deternerse momentaneamente. Esta fluctuacion tiene implicaciones en la operacion y distribucion de la energia.
+
+
+# Motivacion del Analisis
+1.- Comprender como varia la produccion de energia renovable a lo largo del anio para apoyar la planificacion energetica y su integracion en la red.
+
+2.- Identificar complementariedades entre fuentes eolica y solar para optimizar el mix energetico.
+
+
+# Pregunta Analitica Principal
+Cual es la fluctuacion de pv_production, wind production y su suma combinada?
+
+En que meses se maximiza/minimiza cada fuente?
+
+Existe complementariedad estacional entre las fuentes eolica y solar?
+
+Como se relacionan las variables meteorologicas con los patrones de produccion?
+
+
+# Dataset
+Para este estudio se utiliza un dataset real de una planta en Dinamarca con las siguientes caracteristicas:
+
+1.- Es un dataset de series temporales de produccion energetica y variables meteorologicas (formato horario)
+
+2.- Dataset con 9515 observaciones desde 01/01/2020 hasta 31/01/2021.
+
+3.- pv_production, wind_production, pv + wind
+
+4.- Variables predictoras: radiacion solar, nubosidad, temperatura, humedad, precipitacion, velocidad de viento a multiples alturas.
+
+5.- Tipos de datos: serie temporal con indice DatetimeIndex; 43 variables numericas continuas
+
+# Enlace Seccion Limpieza de Datos 
+
+# Enlace Seccion Visualizaciones
+
